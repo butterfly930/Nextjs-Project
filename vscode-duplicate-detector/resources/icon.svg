@@ -1,0 +1,24 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" fill="#007ACC"/>
+  <g fill="white">
+    <!-- First code block -->
+    <rect x="20" y="30" width="35" height="8" rx="2"/>
+    <rect x="20" y="42" width="30" height="6" rx="2"/>
+    <rect x="20" y="52" width="28" height="6" rx="2"/>
+    
+    <!-- Second code block (duplicate) -->
+    <rect x="73" y="30" width="35" height="8" rx="2"/>
+    <rect x="73" y="42" width="30" height="6" rx="2"/>
+    <rect x="73" y="52" width="28" height="6" rx="2"/>
+    
+    <!-- Connection line -->
+    <path d="M 38 45 Q 55.5 45 55.5 45 Q 55.5 45 73 45" stroke="white" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+    
+    <!-- Magnifying glass -->
+    <circle cx="64" cy="85" r="20" fill="none" stroke="white" stroke-width="4"/>
+    <line x1="78" y1="99" x2="95" y2="116" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    
+    <!-- Warning icon inside magnifying glass -->
+    <text x="64" y="92" font-size="24" text-anchor="middle" fill="white" font-weight="bold">!</text>
+  </g>
+</svg>
