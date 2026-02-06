@@ -209,7 +209,7 @@ export class DuplicateDetector {
     }
 
     private generateId(): string {
-        return `dup_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        return `dup_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
     }
 
     private getConfig<T>(key: string): T {
