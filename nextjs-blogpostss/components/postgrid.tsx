@@ -1,4 +1,4 @@
-import { PostCard } from "./postcard";
+import { PostCard } from "../common/postcard";
 
 type Post = {
   userId: number;

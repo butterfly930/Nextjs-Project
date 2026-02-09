@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Author } from "@/ui/components/author";
+import { Author } from "@/common/author";
 
 type Post = {
   userId: number;

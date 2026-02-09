@@ -1,7 +1,7 @@
-import { Pagination } from "../../ui/components/pagination";
-import { SearchBar } from "../../ui/components/searchbar";
-import { PostGrid } from "../../ui/components/postgrid";
-import { POST_IMAGES } from "../../config/postimages"; // fixed typo
+import { Pagination } from "@/components/pagination";
+import { SearchBar } from "@/components/searchbar";
+import { PostGrid } from "@/components/postgrid";
+import { POST_IMAGES } from "../../config/postimages";
 
 type Post = {
   userId: number;
@@ -28,9 +28,7 @@ export default async function PostsPage({
       { cache: "force-cache" }
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch posts");
-    }
+    if (!response.ok) throw new Error("Failed to fetch posts");
 
     posts = await response.json();
   } catch (error) {
@@ -43,11 +41,19 @@ export default async function PostsPage({
     );
   }
 
-  // filter by search query
+  // SERVER-SIDE FILTERING BY URL & SEARCH QUERY
   if (search) {
-    posts = posts.filter((post) =>
-      post.title.toLowerCase().includes(search.toLowerCase())
-    );
+    const searchNum = Number(search);
+
+    if (!isNaN(searchNum)) {
+      // Filter by post ID if numeric
+      posts = posts.filter((post) => post.id === searchNum);
+    } else {
+      // Filter by post title (case-insensitive)
+      posts = posts.filter((post) =>
+        post.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
   }
 
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
@@ -58,8 +64,10 @@ export default async function PostsPage({
     <div className="p-4 max-w-7xl mx-auto">
       <h1 className="text-3xl font-extrabold mb-6 mt-10">Blog Posts</h1>
 
+      {/* Search bar */}
       <SearchBar initialQuery={search || ""} basePath="/posts" />
 
+      {/* Post grid */}
       <PostGrid posts={filteredPosts} images={POST_IMAGES} />
 
       <Pagination
