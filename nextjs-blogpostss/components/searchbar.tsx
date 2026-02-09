@@ -1,6 +1,6 @@
-"use client"; // client component to handle input
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface SearchBarProps {
@@ -12,9 +12,16 @@ export function SearchBar({ initialQuery = "", basePath }: SearchBarProps) {
   const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      router.push(`${basePath}?search=${encodeURIComponent(query)}`);
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [query, router, basePath]);
+
+  //for button search
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Navigate to same page with search query
     router.push(`${basePath}?search=${encodeURIComponent(query)}`);
   };
 
@@ -31,7 +38,7 @@ export function SearchBar({ initialQuery = "", basePath }: SearchBarProps) {
         className="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
-        type="submit"
+        type="button"
         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
         Search

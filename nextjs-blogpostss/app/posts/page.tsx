@@ -2,13 +2,7 @@ import { Pagination } from "@/components/pagination";
 import { SearchBar } from "@/components/searchbar";
 import { PostGrid } from "@/components/postgrid";
 import { POST_IMAGES } from "../../config/postimages";
-
-type Post = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
+import { fetchPosts, Post } from "../lib/fetchposts";
 
 const POSTS_PER_PAGE = 10;
 
@@ -23,14 +17,7 @@ export default async function PostsPage({
   let posts: Post[] = [];
 
   try {
-    const response = await fetch(
-      "https://jsonplaceholder.typicode.com/posts",
-      { cache: "force-cache" }
-    );
-
-    if (!response.ok) throw new Error("Failed to fetch posts");
-
-    posts = await response.json();
+    posts = await fetchPosts(search);
   } catch (error) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
@@ -39,21 +26,6 @@ export default async function PostsPage({
         </p>
       </div>
     );
-  }
-
-  // SERVER-SIDE FILTERING BY URL & SEARCH QUERY
-  if (search) {
-    const searchNum = Number(search);
-
-    if (!isNaN(searchNum)) {
-      // Filter by post ID if numeric
-      posts = posts.filter((post) => post.id === searchNum);
-    } else {
-      // Filter by post title (case-insensitive)
-      posts = posts.filter((post) =>
-        post.title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
   }
 
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
@@ -67,14 +39,21 @@ export default async function PostsPage({
       {/* Search bar */}
       <SearchBar initialQuery={search || ""} basePath="/posts" />
 
-      {/* Post grid */}
-      <PostGrid posts={filteredPosts} images={POST_IMAGES} />
+      {search && posts.length === 0 ? (
+        <div className="text-center text-red-600 text-xl font-bold mt-50 my-10">
+          Please try again, the post you searched for was not found.
+        </div>
+      ) : (
+        <>
+          <PostGrid posts={filteredPosts} images={POST_IMAGES} />
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        basePath="/posts"
-      />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath="/posts"
+          />
+        </>
+      )}
     </div>
   );
 }

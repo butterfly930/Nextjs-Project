@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Author } from "@/common/author";
 import { POST_IMAGES } from "@/config/postimages";
+import ArrowBackIcon from '@/public/arrow-left-to-line.svg';
 
 type Post = {
   userId: number;
@@ -42,7 +44,14 @@ export default async function PostPage({
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-extrabold mb-16 mt-10">
+   <Link
+  href="/posts"
+  className="inline-flex mt-10 items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 shadow-2xl hover:bg-yellow-500 hover:text-black w-fit"
+>
+  <Image src={ArrowBackIcon} alt="Back" width={24} height={24} />
+  Back
+</Link>
+      <h1 className="text-3xl font-extrabold mb-8 mt-7">
         Post {post.id}
       </h1>
 
