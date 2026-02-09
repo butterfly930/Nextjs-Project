@@ -11,7 +11,6 @@ export function Pagination({
   totalPages,
   basePath,
 }: PaginationProps) {
-  
   return (
     <div className="flex justify-center gap-4 mt-10">
       {currentPage > 1 && (

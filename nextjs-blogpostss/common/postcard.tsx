@@ -6,12 +6,12 @@ import Image from "next/image";
 import { Author } from "@/common/author";
 import defaultImage from "@/public/default_image.jpg";
 
-type Post = {
+interface Post {
   userId: number;
   id: number;
   title?: string;
   body?: string;
-};
+}
 
 interface PostCardProps {
   post: Post;

@@ -1,11 +1,11 @@
 import { PostCard } from "../common/postcard";
 
-type Post = {
+interface Post {
   userId: number;
   id: number;
   title: string;
   body: string;
-};
+}
 
 interface PostGridProps {
   posts: Post[];

@@ -3,18 +3,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Author } from "@/common/author";
 import { POST_IMAGES } from "@/config/postimages";
-import ArrowBackIcon from '@/public/arrow-left-to-line.svg';
+import ArrowBackIcon from "@/public/arrow-left-to-line.svg";
 
-type Post = {
+interface Post {
   userId: number;
   id: number;
   title: string;
   body: string;
-};
+}
 
 export async function generateStaticParams() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts"
-  );
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   const posts: Post[] = await res.json();
 
   return posts.map((post) => ({
@@ -31,7 +30,6 @@ export default async function PostPage({
 
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${postId}`,
-
   );
 
   if (!response.ok) {
@@ -44,16 +42,14 @@ export default async function PostPage({
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-   <Link
-  href="/posts"
-  className="inline-flex mt-10 items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 shadow-2xl hover:bg-yellow-500 hover:text-black w-fit"
->
-  <Image src={ArrowBackIcon} alt="Back" width={24} height={24} />
-  Back
-</Link>
-      <h1 className="text-3xl font-extrabold mb-8 mt-7">
-        Post {post.id}
-      </h1>
+      <Link
+        href="/posts"
+        className="inline-flex mt-10 items-center gap-2 px-3 py-1 rounded-lg bg-gray-200 shadow-2xl hover:bg-yellow-500 hover:text-black w-fit"
+      >
+        <Image src={ArrowBackIcon} alt="Back" width={24} height={24} />
+        Back
+      </Link>
+      <h1 className="text-3xl font-extrabold mb-8 mt-7">Post {post.id}</h1>
 
       <div className="bg-white rounded-[8%] shadow-2xl p-10">
         <Image
@@ -69,9 +65,7 @@ export default async function PostPage({
           Title: {post.title}
         </h2>
 
-        <p className="text-gray-600 mb-4 leading-relaxed">
-          Body: {post.body}
-        </p>
+        <p className="text-gray-600 mb-4 leading-relaxed">Body: {post.body}</p>
 
         <Author userId={post.userId} />
       </div>
